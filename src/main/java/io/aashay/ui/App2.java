@@ -53,18 +53,12 @@ public class App2 extends Application {
 
     public Scene gameScene(){
         GridPane rootPane = new GridPane();
-        
-
-        // Button btn2 = new Button();
-        // btn2.setText("0,1");
-        // GridPane.setConstraints(btn2, 0, 1);
-
-        // rootPane.getChildren().add(btn2);
 
         for(int i =0;i<10;i++){
             for(int j = 0;j<10;j++){
                 Button btn = new Button();
                 btn.setText(i + "," + j);
+                btn.getStyleClass().add("waterButton");
                 GridPane.setConstraints(btn,i,j);
                 rootPane.getChildren().add(btn);
                 
@@ -85,7 +79,23 @@ public class App2 extends Application {
                 });
             }
         }
-        return new Scene(rootPane, 400.0, 400.0); 
+        StackPane scorePane = new StackPane();
+        Button endBtn = new Button("End Game");
+
+        endBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event){
+                System.exit(0);
+            }
+        });
+        scorePane.getChildren().add(endBtn);
+
+        scorePane.setPrefWidth(100.0);
+        rootPane.addColumn(10, scorePane);
+
+        Scene scene = new Scene(rootPane, 400.0, 400.0); 
+        scene.getStylesheets().add("gameStyle.css");
+        return scene;
     }
     
 }
