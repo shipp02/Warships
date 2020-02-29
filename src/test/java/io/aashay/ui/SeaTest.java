@@ -42,11 +42,11 @@ public class SeaTest {
             }
         }
 
-        assertTrue(assertions(A, B, C, D));
+        assertTrue(assertions(A, B, C, D, blank));
     }
 
-    public boolean assertions(int A, int B, int C, int D){
-        if(A==5 && B==4 && C==3 && D==4){
+    public boolean assertions(int A, int B, int C, int D, int blank){
+        if(A==5 && B==4 && C==3 && D==4 && blank ==  84){
             return true;
         }else{
             return false;
