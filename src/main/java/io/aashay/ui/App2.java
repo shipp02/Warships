@@ -3,11 +3,10 @@ package io.aashay.ui;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -57,8 +56,11 @@ public class App2 extends Application {
     public Scene gameScene(){
         GridPane rootPane = new GridPane();
 
-        StackPane scorePane = new StackPane();
+        AnchorPane scorePane = new AnchorPane();
+
         Button endBtn = new Button("End Game");
+        AnchorPane.setTopAnchor(endBtn, 10.0);
+        AnchorPane.setRightAnchor(endBtn, 10.0);
         endBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event){
@@ -68,13 +70,22 @@ public class App2 extends Application {
 
         Label status = new Label();
         status.setText("No shots yet");
+        AnchorPane.setTopAnchor(status, 50.0);
+        AnchorPane.setLeftAnchor(status, 10.0);
 
-        scorePane.getChildren().add(endBtn);
+        Label sunkStatus = new Label();
+        sunkStatus.setText("No ships sunk");
+        AnchorPane.setTopAnchor(sunkStatus, 90.0);
+        AnchorPane.setLeftAnchor(sunkStatus, 10.0);
 
-        scorePane.setAlignment(Pos.CENTER);
+        scorePane.getChildren().addAll(endBtn,status,sunkStatus);
+
+
 
         scorePane.setPrefWidth(100.0);
+        GridPane.setRowSpan(scorePane, 10);
         rootPane.addColumn(10, scorePane);
+        
 
         for(int i =0;i<10;i++){
             for(int j = 0;j<10;j++){
@@ -99,10 +110,9 @@ public class App2 extends Application {
                             System.out.println("Miss");
                             status.setText("Miss");
                         }
-
-                        
                     }
                 });
+
             }
         }
         
