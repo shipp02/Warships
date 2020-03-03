@@ -3,8 +3,11 @@ package io.aashay.ui;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -48,11 +51,30 @@ public class App2 extends Application {
         StackPane root = new StackPane();
         root.getChildren().add(btn);
 
-        return new Scene(root, 100.0, 100.0);
+        return new Scene(root);
     }
 
     public Scene gameScene(){
         GridPane rootPane = new GridPane();
+
+        StackPane scorePane = new StackPane();
+        Button endBtn = new Button("End Game");
+        endBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event){
+                stage.setScene(startScene());
+            }
+        });
+
+        Label status = new Label();
+        status.setText("No shots yet");
+
+        scorePane.getChildren().add(endBtn);
+
+        scorePane.setAlignment(Pos.CENTER);
+
+        scorePane.setPrefWidth(100.0);
+        rootPane.addColumn(10, scorePane);
 
         for(int i =0;i<10;i++){
             for(int j = 0;j<10;j++){
@@ -72,28 +94,20 @@ public class App2 extends Application {
                         System.out.println(col + "," + row);
                         if(canon.fire(col, row)){
                             System.out.println("Hit");
+                            status.setText("Hit");
                         }else{
                             System.out.println("Miss");
+                            status.setText("Miss");
                         }
+
+                        
                     }
                 });
             }
         }
-        StackPane scorePane = new StackPane();
-        Button endBtn = new Button("End Game");
+        
 
-        endBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event){
-                System.exit(0);
-            }
-        });
-        scorePane.getChildren().add(endBtn);
-
-        scorePane.setPrefWidth(100.0);
-        rootPane.addColumn(10, scorePane);
-
-        Scene scene = new Scene(rootPane, 400.0, 400.0); 
+        Scene scene = new Scene(rootPane); 
         scene.getStylesheets().add("gameStyle.css");
         return scene;
     }

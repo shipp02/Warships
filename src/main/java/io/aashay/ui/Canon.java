@@ -7,10 +7,11 @@ public class Canon {
     }
 
     public boolean fire(int x, int y){
+        boolean isShipThere = this.isShipThere(x, y);
         if(this.isShipThere(x, y)){
             sea.setObj(x,y,'-');
         }
-        return this.isShipThere(x,y);
+        return isShipThere;
     }
 
     private boolean isShipThere(int x, int y){

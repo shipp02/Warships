@@ -122,7 +122,7 @@ public class Sea {
         return sea[y][x];
     }
 
-    public void setObj(int x, int y, char obj){ // Returns object in a position
+    public void setObj(int x, int y, char obj){ // Sets object in a position
         sea[y][x] = obj;
         printSea();
     }
