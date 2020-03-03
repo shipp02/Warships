@@ -7,10 +7,15 @@ public class Canon {
     }
 
     public boolean fire(int x, int y){
+        boolean isShipThere = this.isShipThere(x, y);
         if(this.isShipThere(x, y)){
             sea.setObj(x,y,'-');
+            for (Ship  ship: this.sea.getShips()) {
+                int[] pos = {x,y};
+                ship.destroy(pos);
+            }
         }
-        return this.isShipThere(x,y);
+        return isShipThere;
     }
 
     private boolean isShipThere(int x, int y){
