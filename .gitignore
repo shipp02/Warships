@@ -2,3 +2,7 @@
 *.class
 target/**
 *.txt
+.project
+.classpath
+.settings/**
+.vscode/**
