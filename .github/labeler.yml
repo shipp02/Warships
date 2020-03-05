@@ -1,0 +1,7 @@
+src:
+  -./src/main/java/**
+  
+resource:
+ -./src/main/resources/**
+ 
+ 
