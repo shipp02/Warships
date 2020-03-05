@@ -1,5 +1,6 @@
 package io.aashay.ui;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +15,8 @@ public class Sea {
     private final static Logger LOGGER = Logger.getLogger(Sea.class.getName());
     static private FileHandler fileTxt;
     static private SimpleFormatter formatterTxt;
+    ArrayList<Ship> ships = new ArrayList<>();
+
     public Sea(){
         initSea();
         setupShips();
@@ -81,14 +84,20 @@ public class Sea {
     }
 
     private void putShip(int ship_dir,  int[] pos, int ship_size, char ship_shape){
+        Ship ship = new Ship(ship_size, pos, ship_dir);
+        this.ships.add(ship);
         if(ship_dir == 0){
             for(int i = pos[1];  i<ship_size+pos[1]; i++){
+                int[] pos_occ = {pos[0],i};
                 sea[pos[0]][i] = ship_shape;
+                ship.setOccPos(pos_occ);
             }
         }
         else if(ship_dir==1){
             for(int i = pos[0]; i<ship_size+pos[0];i++){
+                int[] pos_occ = {i,pos[1]};
                 sea[i][pos[1]] = ship_shape;
+                ship.setOccPos(pos_occ);
             }
         }
     }
@@ -122,12 +131,16 @@ public class Sea {
         return sea[y][x];
     }
 
-    public void setObj(int x, int y, char obj){ // Returns object in a position
+    public void setObj(int x, int y, char obj){ // Sets object in a position
         sea[y][x] = obj;
         printSea();
     }
 
     public Canon getCanon(){
         return new Canon(this);
+    }
+
+    public ArrayList<Ship> getShips(){
+        return ships;
     }
 }

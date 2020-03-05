@@ -1,0 +1,11 @@
+src:
+  -./src/main/java/**
+  
+resource:
+ -./src/main/resources/**
+ 
+workflow:
+ -./.github
+
+test:
+ -./src/test/**

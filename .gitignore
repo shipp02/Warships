@@ -25,3 +25,7 @@ hs_err_pid*
 *.class
 target/**
 *.txt
+.settings/**
+.classpath
+.project
+.vscode/**
