@@ -23,6 +23,13 @@ public class Sea {
         printSea();
     }
 
+    public Sea(int size){
+        this.sea = new char[size][size];
+        initSea();
+        setupShips();
+        printSea();
+    }
+
     private void setupShips(){
         int[] ship_sizes = {5,4,3,2,2};
         char[] ship_shapes = {'A','B','C','D','D'};
@@ -84,7 +91,7 @@ public class Sea {
     }
 
     private void putShip(int ship_dir,  int[] pos, int ship_size, char ship_shape){
-        Ship ship = new Ship(ship_size, pos, ship_dir);
+        Ship ship = new Ship(ship_size, pos, ship_dir, this);
         this.ships.add(ship);
         if(ship_dir == 0){
             for(int i = pos[1];  i<ship_size+pos[1]; i++){
@@ -102,11 +109,11 @@ public class Sea {
         }
     }
 
-    private static int[] getPos(){
+    private int[] getPos(){
         Random random = new Random();
         int[] pos = new int[2];
-        pos[0] = random.nextInt(10);
-        pos[1] = random.nextInt(10);
+        pos[0] = random.nextInt(this.sea.length);
+        pos[1] = random.nextInt(this.sea.length);
         return pos;
     }
 
@@ -142,5 +149,9 @@ public class Sea {
 
     public ArrayList<Ship> getShips(){
         return ships;
+    }
+
+    public boolean sunk(int i){
+        return ships.get(i).isItDestroyed();
     }
 }

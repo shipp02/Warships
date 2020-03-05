@@ -7,12 +7,13 @@ public class Ship {
     int[] Pos;
     int Dir;
     ArrayList<int[]> PosOccupied = new ArrayList<>();
+    Sea waters = null;
 
-    public Ship(int length, int[] Pos, int Dir){
+    public Ship(int length, int[] Pos, int Dir, Sea sea){
         this.length = length;
         this.Pos = Pos;
         this.Dir = Dir;
-        
+        this.waters = sea;
     }
 
     public void setOccPos(int[] occupied){
@@ -42,5 +43,18 @@ public class Ship {
         else{
             return false;
         }
+    }
+
+    public String toStringSunk(){
+        return "Ship of size " + this.length + "was sunk.";
+    }
+
+    public boolean sunk(){
+        for (int[] i : PosOccupied) {
+            if(this.waters.getObj(i[1], i[0]) == '-'){
+                return true;
+            }
+        }
+        return false;
     }
 }

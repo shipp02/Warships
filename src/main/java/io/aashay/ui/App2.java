@@ -13,7 +13,9 @@ import javafx.stage.Stage;
 
 public class App2 extends Application {
     private Stage stage;
-    Canon canon;
+    private Canon canon;
+    private Sea sea;
+    private int size = 40;
     
     public static void main(String[] args) {
         launch(args);
@@ -22,7 +24,8 @@ public class App2 extends Application {
     @Override
     public void start(Stage primaryStage) {
         //Init game
-        Sea sea = new Sea();
+        this.size = 10;
+        sea = new Sea(this.size);
         canon = sea.getCanon();
 
 
@@ -84,11 +87,11 @@ public class App2 extends Application {
 
         scorePane.setPrefWidth(100.0);
         GridPane.setRowSpan(scorePane, 10);
-        rootPane.addColumn(10, scorePane);
+        rootPane.addColumn(this.size, scorePane);
         
 
-        for(int i =0;i<10;i++){
-            for(int j = 0;j<10;j++){
+        for(int i =0;i<this.size;i++){
+            for(int j = 0;j<this.size;j++){
                 Button btn = new Button();
                 btn.setText(i + "," + j);
                 btn.getStyleClass().add("waterButton");
@@ -110,6 +113,11 @@ public class App2 extends Application {
                             System.out.println("Miss");
                             status.setText("Miss");
                         }
+                        String statusText = "";
+                        for (int k = 0; k < 5; k++) {
+                            statusText += sea.sunk(k);
+                        }
+                        sunkStatus.setText(statusText);
                     }
                 });
 
