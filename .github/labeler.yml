@@ -4,4 +4,8 @@ src:
 resource:
  -./src/main/resources/**
  
- 
+workflow:
+ -./.github
+
+test:
+ -./src/test/**
