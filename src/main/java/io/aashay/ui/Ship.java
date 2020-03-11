@@ -37,24 +37,21 @@ public class Ship {
     }
 
     public boolean isItDestroyed(){
-        if(PosOccupied.size()==0){
-            return true;
+        boolean sunk = true;
+        for (int[] pos : PosOccupied) {
+            if(this.waters.getObj(pos[1], pos[0])!='-'){
+                sunk = sunk && false;
+                System.out.println("Ship isItDestroyed if obj=" + this.waters.getObj(pos[1], pos[0]));
+            }else{
+                sunk = sunk && true;
+                System.out.println("Ship isItDestroyed else obj=" + this.waters.getObj(pos[1], pos[0]));
+            }
         }
-        else{
-            return false;
-        }
+        return sunk;
     }
 
     public String toStringSunk(){
         return "Ship of size " + this.length + "was sunk.";
     }
 
-    public boolean sunk(){
-        for (int[] i : PosOccupied) {
-            if(this.waters.getObj(i[1], i[0]) == '-'){
-                return true;
-            }
-        }
-        return false;
-    }
 }

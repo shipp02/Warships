@@ -117,7 +117,7 @@ public class App2 extends Application {
                         for (int k = 0; k < 5; k++) {
                             statusText += sea.sunk(k);
                         }
-                        sunkStatus.setText(statusText);
+                        System.out.println(statusText);
                     }
                 });
 
