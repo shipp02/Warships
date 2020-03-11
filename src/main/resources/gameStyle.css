@@ -1,3 +1,7 @@
 .waterButton{
     -fx-background-color:lightblue;
 }
+
+.waterButton:hover{
+    -fx-background-color:red;   
+}
