@@ -1,5 +1,7 @@
 package io.aashay.ui;
 
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -57,6 +59,13 @@ public class App2 extends Application {
     }
 
     public Scene gameScene(){
+        ArrayList<String> sunkStatusStrings = new ArrayList<>();
+        sunkStatusStrings.add("Aircraft Carrier");
+        sunkStatusStrings.add("Battle Ship");
+        sunkStatusStrings.add("Cruiser");
+        sunkStatusStrings.add("Destroyer");
+        sunkStatusStrings.add("Destroyer");
+        
         GridPane rootPane = new GridPane();
 
         AnchorPane scorePane = new AnchorPane();
@@ -115,7 +124,9 @@ public class App2 extends Application {
                         }
                         String statusText = "";
                         for (int k = 0; k < 5; k++) {
-                            statusText += sea.sunk(k);
+                            if(sea.sunk(k)){
+                                sunkStatus.setText(sunkStatusStrings.get(k) + " was sunk");
+                            }
                         }
                         System.out.println(statusText);
                     }

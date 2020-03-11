@@ -15,7 +15,7 @@ public class Sea {
     private final static Logger LOGGER = Logger.getLogger(Sea.class.getName());
     static private FileHandler fileTxt;
     static private SimpleFormatter formatterTxt;
-    ArrayList<Ship> ships = new ArrayList<>();
+    private ArrayList<Ship> ships = new ArrayList<>();
 
     public Sea(){
         initSea();
