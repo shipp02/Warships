@@ -65,6 +65,8 @@ public class App2 extends Application {
         sunkStatusStrings.add("Cruiser");
         sunkStatusStrings.add("Destroyer");
         sunkStatusStrings.add("Destroyer");
+
+        ArrayList<Integer> shipsSunk = new ArrayList<>();
         
         GridPane rootPane = new GridPane();
 
@@ -122,13 +124,20 @@ public class App2 extends Application {
                             System.out.println("Miss");
                             status.setText("Miss");
                         }
-                        String statusText = "";
+
+                        trigger.getStyleClass().remove("waterButton");
+                        trigger.getStyleClass().add("firedWaterButton");
+                        
                         for (int k = 0; k < 5; k++) {
-                            if(sea.sunk(k)){
+                            if(shipsSunk.indexOf(k) != -1){
+                                ;
+                            }
+                            else if(sea.sunk(k)){
+                                shipsSunk.add(k);
                                 sunkStatus.setText(sunkStatusStrings.get(k) + " was sunk");
+                                System.out.println(sunkStatusStrings.get(k) + " was sunk");
                             }
                         }
-                        System.out.println(statusText);
                     }
                 });
 
