@@ -4,11 +4,8 @@
 
 .waterButton:hover{
     -fx-background-color:red;   
-<<<<<<< HEAD
-=======
 }
 
 .firedWaterButton{
     -fx-background-color:grey;   
->>>>>>> 90c943707fee02ce
 }

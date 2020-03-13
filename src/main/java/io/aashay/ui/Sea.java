@@ -107,6 +107,7 @@ public class Sea {
                 ship.setOccPos(pos_occ);
             }
         }
+        ship.setSea(this);
     }
 
     private int[] getPos(){
@@ -153,5 +154,51 @@ public class Sea {
 
     public boolean sunk(int i){
         return ships.get(i).isItDestroyed();
+    }
+    
+    public int isItDestroyed(){
+        for (Ship ship : ships) {
+            if(ship.isItDestroyed()){
+                return ships.indexOf(ship);
+            }
+        }
+        return -1;
+    }
+
+    public boolean didISinkAllTheShips(){
+        int A = 0;
+        int B = 0;
+        int C = 0;
+        int D = 0;
+        int blank = 0;
+        for (int i =0;i<10;i++) {
+            for(int j =0;j<10;j++){
+                char obj  = this.getObj(i, j);
+                switch(obj){
+                    case 'A':
+                        A++;
+                        break;
+                    case 'B':
+                        B++;
+                        break;
+                    case 'C':
+                        C++;
+                        break;
+                    case 'D':
+                        D++;
+                        break;
+                    default:
+                        blank++;
+                        break;
+                    
+                }
+            }
+        }
+
+        if(A==0 && B==0 && C==0 && D==0){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
