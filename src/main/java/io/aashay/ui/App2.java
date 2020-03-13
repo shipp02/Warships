@@ -1,5 +1,7 @@
 package io.aashay.ui;
 
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,7 +15,9 @@ import javafx.stage.Stage;
 
 public class App2 extends Application {
     private Stage stage;
-    Canon canon;
+    private Canon canon;
+    private Sea sea;
+    private int size = 40;
     
     public static void main(String[] args) {
         launch(args);
@@ -22,7 +26,8 @@ public class App2 extends Application {
     @Override
     public void start(Stage primaryStage) {
         //Init game
-        Sea sea = new Sea();
+        this.size = 10;
+        sea = new Sea(this.size);
         canon = sea.getCanon();
 
 
@@ -54,6 +59,15 @@ public class App2 extends Application {
     }
 
     public Scene gameScene(){
+        ArrayList<String> sunkStatusStrings = new ArrayList<>();
+        sunkStatusStrings.add("Aircraft Carrier");
+        sunkStatusStrings.add("Battle Ship");
+        sunkStatusStrings.add("Cruiser");
+        sunkStatusStrings.add("Destroyer");
+        sunkStatusStrings.add("Destroyer");
+
+        ArrayList<Integer> shipsSunk = new ArrayList<>();
+        
         GridPane rootPane = new GridPane();
 
         AnchorPane scorePane = new AnchorPane();
@@ -84,11 +98,11 @@ public class App2 extends Application {
 
         scorePane.setPrefWidth(100.0);
         GridPane.setRowSpan(scorePane, 10);
-        rootPane.addColumn(10, scorePane);
+        rootPane.addColumn(this.size, scorePane);
         
 
-        for(int i =0;i<10;i++){
-            for(int j = 0;j<10;j++){
+        for(int i =0;i<this.size;i++){
+            for(int j = 0;j<this.size;j++){
                 Button btn = new Button();
                 btn.setText(i + "," + j);
                 btn.getStyleClass().add("waterButton");
@@ -109,6 +123,20 @@ public class App2 extends Application {
                         }else{
                             System.out.println("Miss");
                             status.setText("Miss");
+                        }
+
+                        trigger.getStyleClass().remove("waterButton");
+                        trigger.getStyleClass().add("firedWaterButton");
+                        
+                        for (int k = 0; k < 5; k++) {
+                            if(shipsSunk.indexOf(k) != -1){
+                                ;
+                            }
+                            else if(sea.sunk(k)){
+                                shipsSunk.add(k);
+                                sunkStatus.setText(sunkStatusStrings.get(k) + " was sunk");
+                                System.out.println(sunkStatusStrings.get(k) + " was sunk");
+                            }
                         }
                     }
                 });

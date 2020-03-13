@@ -10,10 +10,6 @@ public class Canon {
         boolean isShipThere = this.isShipThere(x, y);
         if(this.isShipThere(x, y)){
             sea.setObj(x,y,'-');
-            for (Ship  ship: this.sea.getShips()) {
-                int[] pos = {x,y};
-                ship.destroy(pos);
-            }
         }
         return isShipThere;
     }
