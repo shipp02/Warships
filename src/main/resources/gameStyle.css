@@ -5,3 +5,7 @@
 .waterButton:hover{
     -fx-background-color:red;   
 }
+
+.firedWaterButton{
+    -fx-background-color:grey;   
+}
