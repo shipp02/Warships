@@ -13,6 +13,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+/**
+ * This class is one where all the main classes are initialised it controls all user input
+ * I also sets up the  GUI
+ */
 public class App2 extends Application {
     private Stage stage;
     private Canon canon;
@@ -22,7 +26,11 @@ public class App2 extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
+    
+    /**
+     * It sets up the start stage and handles startup
+     * The sea class is initialised and the start scene is put on display by default
+     */
     @Override
     public void start(Stage primaryStage) {
         //Init game
@@ -40,6 +48,10 @@ public class App2 extends Application {
         primaryStage.show();
     }
 
+    /**
+     * This sets up and return the start scene it
+     * @return Start Scene with Button to start the game
+     */
     public Scene startScene(){
         Button btn = new Button();
         btn.setText("Start Game");
@@ -58,6 +70,11 @@ public class App2 extends Application {
         return new Scene(root);
     }
 
+    /**
+     * Sets up and returns the game scene also adds handlers to all buttons of the game
+     * Sets up all the handling of user input
+     * @return scene with game buttons and end button
+     */
     public Scene gameScene(){
         ArrayList<String> sunkStatusStrings = new ArrayList<>();
         sunkStatusStrings.add("Aircraft Carrier");
@@ -113,10 +130,13 @@ public class App2 extends Application {
  
                     @Override
                     public void handle(ActionEvent event) {
+                        // Gets the position of the button which was clicked since tis is a generic handler
                         Button trigger = (Button) event.getSource();
                         int col = GridPane.getColumnIndex(trigger);
                         int row = GridPane.getRowIndex(trigger);
                         System.out.println(col + "," + row);
+
+                        // Fires on the position of the button that was clicked
                         if(canon.fire(col, row)){
                             System.out.println("Hit");
                             status.setText("Hit");
@@ -125,10 +145,16 @@ public class App2 extends Application {
                             status.setText("Miss");
                         }
 
+                        // Changes the colour of the button that was clicked 
+                        // So that user may know that they have already clicked that button
                         trigger.getStyleClass().remove("waterButton");
                         trigger.getStyleClass().add("firedWaterButton");
                         
+
+                        // Checks which ship if any was sunk by this click and informs the user accordingly
+
                         for (int k = 0; k < 5; k++) {
+                            // This checks if the ship was previously marked as sunk so that it is not shown again
                             if(shipsSunk.indexOf(k) != -1){
                                 ;
                             }
