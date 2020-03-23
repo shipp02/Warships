@@ -125,6 +125,24 @@ public class Sea {
             System.out.println();
         }
     }
+    
+    public boolean didAllShipsSink() {
+    	int ships = 0;
+    	for (char[] cs : sea) {
+			for (char c : cs) {
+				if(c!='-') {
+					ships++;
+				}
+			}
+		}
+    	if(ships!=0) {
+    		return false;
+    	}
+    	
+		else {
+			return true;
+		}
+	}
 
     private void initSea(){
         for(int i =0 ;i<sea.length;i++){
