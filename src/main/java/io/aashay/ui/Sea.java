@@ -9,7 +9,10 @@ import java.util.logging.SimpleFormatter;
 
 
 
-
+/**
+ * This is the Sea on which the game is played.It is also gives a lot of abstraction to Application class
+ * This class reduces the amount of code required in application class at sometimes
+ */
 public class Sea {
     private char[][] sea = new char[10][10];  // form {x,y}
     private final static Logger LOGGER = Logger.getLogger(Sea.class.getName());
@@ -17,12 +20,18 @@ public class Sea {
     static private SimpleFormatter formatterTxt;
     private ArrayList<Ship> ships = new ArrayList<>();
 
+    /**
+     * Constructor to set up the sea with default size of 10
+     */
     public Sea(){
         initSea();
         setupShips();
         printSea();
     }
 
+    /**
+     * Constructor to set up the sea with custom size
+     */
     public Sea(int size){
         this.sea = new char[size][size];
         initSea();
@@ -30,6 +39,10 @@ public class Sea {
         printSea();
     }
 
+    /**
+     * Generates random numbers and checks if a ship can be put at that position.
+     * If yes it puts the ship using putShip
+     */
     private void setupShips(){
         int[] ship_sizes = {5,4,3,2,2};
         char[] ship_shapes = {'A','B','C','D','D'};
@@ -63,6 +76,14 @@ public class Sea {
         }
     }
 
+    /**
+     * Checks if a ship can be put at pos.
+     * It ensures that no other ships are in the way and also that the ship will fit the map from given position
+     * @param ship_dir
+     * @param pos
+     * @param ship_size
+     * @return
+     */
     private boolean canPutShip(int ship_dir,  int[] pos, int ship_size){
         if(ship_dir == 0){
             if(pos[1]+ship_size > sea[0].length){
@@ -90,6 +111,15 @@ public class Sea {
         }
     }
 
+    /**
+     * This class puts the ships in the sea.
+     * It places sips on the sea char[][] without checking if there is already any ship in that place since this method
+     * is only called once it has been confirmed that that position is free.
+     * @param ship_dir
+     * @param pos
+     * @param ship_size
+     * @param ship_shape
+     */
     private void putShip(int ship_dir,  int[] pos, int ship_size, char ship_shape){
         Ship ship = new Ship(ship_size, pos, ship_dir, this);
         this.ships.add(ship);
@@ -117,6 +147,9 @@ public class Sea {
         return pos;
     }
 
+    /**
+     * print sea to terminally correctly
+     */
     private void printSea(){
         for(int i = 0;i<sea.length;i++){
             for(int j = 0;j<sea[0].length;j++){
@@ -144,6 +177,9 @@ public class Sea {
 		}
 	}
 
+    /**
+     * Adds dashes to every point on the sea so further we can check which points are empty
+     */
     private void initSea(){
         for(int i =0 ;i<sea.length;i++){
             for(int j =0 ;j<sea[0].length;j++){
