@@ -137,9 +137,6 @@ public class App2 extends Application {
                     public void handle(ActionEvent event) {
 
                         // Gets the position of the button which was clicked since tis is a generic handler
-
-                    	
-
                         Button trigger = (Button) event.getSource();
                         int col = GridPane.getColumnIndex(trigger);
                         int row = GridPane.getRowIndex(trigger);
@@ -192,13 +189,13 @@ public class App2 extends Application {
     public Scene endScene(boolean finish, int moves) {
     	AnchorPane pane = new AnchorPane();
     	if(finish) {
-			
-			
+				
 			Label congratulationsLabel = new Label("You completed the game in " + moves 
 					+ " moves");
 			AnchorPane.setTopAnchor(congratulationsLabel, 20.0);
 			AnchorPane.setLeftAnchor(congratulationsLabel, 30.0);
-			AnchorPane.setRightAnchor(congratulationsLabel, 30.0);
+            AnchorPane.setRightAnchor(congratulationsLabel, 30.0);
+            AnchorPane.setBottomAnchor(congratulationsLabel, 20.0);
 			pane.getChildren().add(congratulationsLabel);
 			
 		}
