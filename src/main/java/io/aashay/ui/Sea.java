@@ -10,7 +10,7 @@ import java.util.logging.SimpleFormatter;
 
 
 /**
- * This is the Sea on which the game is played.It is also gives a lot of abstraction to Application class
+ * This is the Sea on which the game is played. It is also gives a lot of abstraction to Application class
  * This class reduces the amount of code required in application class at sometimes
  */
 public class Sea {
@@ -31,6 +31,7 @@ public class Sea {
 
     /**
      * Constructor to set up the sea with custom size
+     * @param size of the sea
      */
     public Sea(int size){
         this.sea = new char[size][size];
@@ -53,7 +54,7 @@ public class Sea {
             formatterTxt = new SimpleFormatter();
             fileTxt.setFormatter(formatterTxt);
             LOGGER.addHandler(fileTxt);
-            LOGGER.setLevel(Level.INFO);
+            LOGGER.setLevel(Level.SEVERE);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -139,6 +140,11 @@ public class Sea {
         }
     }
 
+    /**
+    * provides a position to place the ship to canPutShip
+    * helps to rmove some repeated code and makes code more readable
+    * @return
+     */
     private int[] getPos(){
         Random random = new Random();
         int[] pos = new int[2];
@@ -148,7 +154,7 @@ public class Sea {
     }
 
     /**
-     * print sea to terminally correctly
+     * print sea to terminal correctly
      */
     private void printSea(){
         for(int i = 0;i<sea.length;i++){
@@ -157,25 +163,30 @@ public class Sea {
             }
             System.out.println();
         }
+	System.out.println();
     }
     
+    /**
+    * Checks if all ships have been sunk
+    * @return
+     */
     public boolean didAllShipsSink() {
     	int ships = 0;
     	for (char[] cs : sea) {
-			for (char c : cs) {
-				if(c!='-') {
-					ships++;
-				}
+		for (char c : cs) {
+			if(c!='-') {
+				ships++;
 			}
 		}
+	}
     	if(ships!=0) {
     		return false;
     	}
     	
-		else {
-			return true;
-		}
+	else {
+		return true;
 	}
+    }
 
     /**
      * Adds dashes to every point on the sea so further we can check which points are empty
@@ -188,23 +199,50 @@ public class Sea {
         }
     }
 
+    /**
+     * Gets the object at given position
+     * @param x 
+     * @param y
+     * @return object at given position
+     */
     public char getObj(int x, int y){ // Returns object in a position
         return sea[y][x];
     }
 
+    /**
+     * Sets the object at the given position.
+     * Used mainly by the Canon class to set which parts of the ship have been broken
+     * @param x
+     * @param y
+     * @param obj 
+     */
     public void setObj(int x, int y, char obj){ // Sets object in a position
         sea[y][x] = obj;
         printSea();
     }
 
+    /**
+     * Provides the canon to the user.
+     * It helps in automatically binding the provided canon to this class and removes reponsibility from the App2 class
+     * @return Canon bound to this sea object
+     */
     public Canon getCanon(){
         return new Canon(this);
     }
 
+    /**
+     * Returns all ships placed in this sea
+     * @return
+     */
     public ArrayList<Ship> getShips(){
         return ships;
     }
 
+    /**
+     * Checks if a particular ship has been sunk
+     * @param i The number of the ship to check.
+     * @return True if the ship has sunk. False otherwise
+     */
     public boolean sunk(int i){
         return ships.get(i).isItDestroyed();
     }

@@ -1,6 +1,7 @@
 package io.aashay.ui;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -76,7 +77,10 @@ public class App2 extends Application {
      * @return scene with game buttons and end button
      */
     public Scene gameScene(){
-    	sea = new Sea(this.size);
+        AtomicInteger moves = new AtomicInteger(0);
+        AtomicInteger ships = new AtomicInteger(5);
+
+        sea = new Sea(this.size);
         canon = sea.getCanon();
     	
         ArrayList<String> sunkStatusStrings = new ArrayList<>();
@@ -86,7 +90,6 @@ public class App2 extends Application {
         sunkStatusStrings.add("Destroyer");
         sunkStatusStrings.add("Destroyer");
         
-        int moves = 0;
 
         ArrayList<Integer> shipsSunk = new ArrayList<>();
         
@@ -100,7 +103,7 @@ public class App2 extends Application {
         endBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event){
-                stage.setScene(endScene(false, 0));
+                stage.setScene(endScene(false, moves));
             }
         });
 
@@ -113,8 +116,13 @@ public class App2 extends Application {
         sunkStatus.setText("No ships sunk");
         AnchorPane.setTopAnchor(sunkStatus, 90.0);
         AnchorPane.setLeftAnchor(sunkStatus, 10.0);
+        
+        Label shipsLeft = new Label();
+        shipsLeft.setText("No ships sunk");
+        AnchorPane.setTopAnchor(shipsLeft, 120.0);
+        AnchorPane.setLeftAnchor(shipsLeft, 10.0);
 
-        scorePane.getChildren().addAll(endBtn,status,sunkStatus);
+        scorePane.getChildren().addAll(endBtn,status,sunkStatus, shipsLeft);
 
 
 
@@ -132,22 +140,18 @@ public class App2 extends Application {
                 rootPane.getChildren().add(btn);
                 
                 btn.setOnAction(new EventHandler<ActionEvent>() {
- 
                     @Override
                     public void handle(ActionEvent event) {
-
+                        moves.incrementAndGet();
                         // Gets the position of the button which was clicked since tis is a generic handler
                         Button trigger = (Button) event.getSource();
                         int col = GridPane.getColumnIndex(trigger);
                         int row = GridPane.getRowIndex(trigger);
-                        System.out.println(col + "," + row);
 
                         // Fires on the position of the button that was clicked
                         if(canon.fire(col, row)){
-                            System.out.println("Hit");
                             status.setText("Hit");
                         }else{
-                            System.out.println("Miss");
                             status.setText("Miss");
                         }
 
@@ -166,8 +170,8 @@ public class App2 extends Application {
                             }
                             else if(sea.sunk(k)){
                                 shipsSunk.add(k);
+                                shipsLeft.setText("Ships Left: " + ships.decrementAndGet());
                                 sunkStatus.setText(sunkStatusStrings.get(k) + " was sunk");
-                                System.out.println(sunkStatusStrings.get(k) + " was sunk");
                             }
                         }
                         
@@ -186,16 +190,15 @@ public class App2 extends Application {
         return scene;
     }
     
-    public Scene endScene(boolean finish, int moves) {
+    public Scene endScene(boolean finish, AtomicInteger moves) {
     	AnchorPane pane = new AnchorPane();
     	if(finish) {
 				
-			Label congratulationsLabel = new Label("You completed the game in " + moves 
+			Label congratulationsLabel = new Label("You completed the game in " + moves.get()
 					+ " moves");
 			AnchorPane.setTopAnchor(congratulationsLabel, 20.0);
 			AnchorPane.setLeftAnchor(congratulationsLabel, 30.0);
             AnchorPane.setRightAnchor(congratulationsLabel, 30.0);
-            AnchorPane.setBottomAnchor(congratulationsLabel, 20.0);
 			pane.getChildren().add(congratulationsLabel);
 			
 		}
