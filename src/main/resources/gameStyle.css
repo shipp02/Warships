@@ -1,11 +1,18 @@
 .waterButton{
     -fx-background-color:lightblue;
+	-fx-font-family: "monospace";
 }
 
 .waterButton:hover{
     -fx-background-color:red;   
+	-fx-font-family: "monospace";
 }
 
 .firedWaterButton{
     -fx-background-color:grey;   
+	-fx-font-family: "monospace";
+}
+
+.root {
+	-fx-font-family: "monospace";
 }

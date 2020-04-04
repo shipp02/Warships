@@ -1,11 +1,14 @@
 package io.aashay.ui;
 
-public class Canon {
+import java.util.Iterator;
+
+public class Canon implements CanonInterface{
     Sea sea;
     public Canon(Sea sea){
         this.sea = sea;
     }
 
+    @Override
     public boolean fire(int x, int y){
         boolean isShipThere = this.isShipThere(x, y);
         if(this.isShipThere(x, y)){
@@ -15,11 +18,6 @@ public class Canon {
     }
 
     private boolean isShipThere(int x, int y){
-        if(sea.getObj(x, y) == '-'){
-            return false;
-        }
-        else{
-            return true;
-        }
+        return sea.getObj(x, y) != '-';
     }
 }
