@@ -58,11 +58,11 @@ public class Sea {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        while(i<5){
-            int pos[] = getPos();
-            int ship_size = ship_sizes[i];
+        while(i<Vehicles.values().length){
+            int[] pos = getPos();
+            int ship_size = Vehicles.values()[i].getSize();
             int ship_dir  = random.nextInt(2); // 0-Horizontal,  1-Vertical
-            char ship_shape = ship_shapes[i];
+            char ship_shape = Vehicles.values()[i].getShape();
 
 
             if(canPutShip(ship_dir, pos, ship_size)){
@@ -80,10 +80,10 @@ public class Sea {
     /**
      * Checks if a ship can be put at pos.
      * It ensures that no other ships are in the way and also that the ship will fit the map from given position
-     * @param ship_dir
-     * @param pos
-     * @param ship_size
-     * @return
+     * @param ship_dir Direction of ship
+     * @param pos Position of ship
+     * @param ship_size Size of Ship
+     * @return whether a ship can be put at that position
      */
     private boolean canPutShip(int ship_dir,  int[] pos, int ship_size){
         if(ship_dir == 0){
@@ -116,10 +116,10 @@ public class Sea {
      * This class puts the ships in the sea.
      * It places sips on the sea char[][] without checking if there is already any ship in that place since this method
      * is only called once it has been confirmed that that position is free.
-     * @param ship_dir
-     * @param pos
-     * @param ship_size
-     * @param ship_shape
+     * @param ship_dir Direction of ship
+     * @param pos Position of ship
+     * @param ship_size size of Ship
+     * @param ship_shape Shape of Ship
      */
     private void putShip(int ship_dir,  int[] pos, int ship_size, char ship_shape){
         Ship ship = new Ship(ship_size, pos, ship_dir, this);
@@ -142,7 +142,7 @@ public class Sea {
 
     /**
     * provides a position to place the ship to canPutShip
-    * helps to rmove some repeated code and makes code more readable
+    * helps to remove some repeated code and makes code more readable
     * @return
      */
     private int[] getPos(){
@@ -168,7 +168,7 @@ public class Sea {
     
     /**
     * Checks if all ships have been sunk
-    * @return
+    * @return whether all ships have been sunk
      */
     public boolean didAllShipsSink() {
     	int ships = 0;
@@ -179,13 +179,7 @@ public class Sea {
 			}
 		}
 	}
-    	if(ships!=0) {
-    		return false;
-    	}
-    	
-	else {
-		return true;
-	}
+        return ships == 0;
     }
 
     /**
@@ -226,7 +220,7 @@ public class Sea {
      * It helps in automatically binding the provided canon to this class and removes reponsibility from the App2 class
      * @return Canon bound to this sea object
      */
-    public Canon getCanon(){
+    public CanonInterface getCanon(){
         return new Canon(this);
     }
 

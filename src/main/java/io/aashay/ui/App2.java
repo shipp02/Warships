@@ -20,7 +20,7 @@ import javafx.stage.Stage;
  */
 public class App2 extends Application {
     private Stage stage;
-    private Canon canon;
+    private CanonInterface canon;
     private Sea sea;
     private int size = 40;
     
@@ -165,10 +165,7 @@ public class App2 extends Application {
 
                         for (int k = 0; k < 5; k++) {
                             // This checks if the ship was previously marked as sunk so that it is not shown again
-                            if(shipsSunk.indexOf(k) != -1){
-                                ;
-                            }
-                            else if(sea.sunk(k)){
+                            if(sea.sunk(k) && shipsSunk.indexOf(k) != -1){
                                 shipsSunk.add(k);
                                 shipsLeft.setText("Ships Left: " + ships.decrementAndGet());
                                 sunkStatus.setText(sunkStatusStrings.get(k) + " was sunk");
