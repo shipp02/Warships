@@ -1,6 +1,7 @@
 package io.aashay.ui;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 // TODO: add destroy method which removes Place form PlaceList
 public class Ship {
@@ -10,6 +11,7 @@ public class Ship {
     // TODO Use palce list instead of ArrayList
     ArrayList<Place> PosOccupied = new ArrayList<>();
     Sea waters = null;
+    private Sea sea;
 
     /**
     * Creates a ship object with the given param

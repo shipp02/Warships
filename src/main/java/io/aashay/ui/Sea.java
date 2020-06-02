@@ -138,6 +138,7 @@ public class Sea {
                 ship.setOccPos(pos_occ);
             }
         }
+        ship.setSea(this);
     }
 
     /**

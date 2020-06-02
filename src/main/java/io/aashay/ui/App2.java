@@ -1,5 +1,6 @@
 package io.aashay.ui;
 
+
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -23,6 +24,7 @@ public class App2 extends Application {
     private CanonInterface canon;
     private Sea sea;
     private int size = 40;
+
     
     public static void main(String[] args) {
         launch(args);
@@ -35,6 +37,7 @@ public class App2 extends Application {
     @Override
     public void start(Stage primaryStage) {
         //Init game
+
         this.size = 10;
 //        sea = new Sea(this.size);
 //        canon = sea.getCanon();
@@ -77,6 +80,7 @@ public class App2 extends Application {
      * @return scene with game buttons and end button
      */
     public Scene gameScene(){
+
         AtomicInteger moves = new AtomicInteger(0);
         AtomicInteger ships = new AtomicInteger(5);
 
@@ -128,11 +132,11 @@ public class App2 extends Application {
 
         scorePane.setPrefWidth(100.0);
         GridPane.setRowSpan(scorePane, 10);
-        rootPane.addColumn(this.size, scorePane);
+        rootPane.addColumn(10, scorePane);
         
 
-        for(int i =0;i<this.size;i++){
-            for(int j = 0;j<this.size;j++){
+        for(int i =0;i<10;i++){
+            for(int j = 0;j<10;j++){
                 Button btn = new Button();
                 btn.setText(i + "," + j);
                 btn.getStyleClass().add("waterButton");
