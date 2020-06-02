@@ -1,5 +1,9 @@
 package io.aashay.ui;
 
+
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,19 +15,32 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+/**
+ * This class is one where all the main classes are initialised it controls all user input
+ * I also sets up the  GUI
+ */
 public class App2 extends Application {
     private Stage stage;
-    Canon canon;
+    private CanonInterface canon;
+    private Sea sea;
+    private int size = 40;
+
     
     public static void main(String[] args) {
         launch(args);
     }
-
+    
+    /**
+     * It sets up the start stage and handles startup
+     * The sea class is initialised and the start scene is put on display by default
+     */
     @Override
     public void start(Stage primaryStage) {
         //Init game
-        Sea sea = new Sea();
-        canon = sea.getCanon();
+
+        this.size = 10;
+//        sea = new Sea(this.size);
+//        canon = sea.getCanon();
 
 
         primaryStage.setTitle("Grid Pane");
@@ -35,6 +52,10 @@ public class App2 extends Application {
         primaryStage.show();
     }
 
+    /**
+     * This sets up and return the start scene it
+     * @return Start Scene with Button to start the game
+     */
     public Scene startScene(){
         Button btn = new Button();
         btn.setText("Start Game");
@@ -53,7 +74,29 @@ public class App2 extends Application {
         return new Scene(root);
     }
 
+    /**
+     * Sets up and returns the game scene also adds handlers to all buttons of the game
+     * Sets up all the handling of user input
+     * @return scene with game buttons and end button
+     */
     public Scene gameScene(){
+
+        AtomicInteger moves = new AtomicInteger(0);
+        AtomicInteger ships = new AtomicInteger(5);
+
+        sea = new Sea(this.size);
+        canon = sea.getCanon();
+    	
+        ArrayList<String> sunkStatusStrings = new ArrayList<>();
+        sunkStatusStrings.add("Aircraft Carrier");
+        sunkStatusStrings.add("Battle Ship");
+        sunkStatusStrings.add("Cruiser");
+        sunkStatusStrings.add("Destroyer");
+        sunkStatusStrings.add("Destroyer");
+        
+
+        ArrayList<Integer> shipsSunk = new ArrayList<>();
+        
         GridPane rootPane = new GridPane();
 
         AnchorPane scorePane = new AnchorPane();
@@ -64,7 +107,7 @@ public class App2 extends Application {
         endBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event){
-                stage.setScene(startScene());
+                stage.setScene(endScene(false, moves));
             }
         });
 
@@ -77,8 +120,13 @@ public class App2 extends Application {
         sunkStatus.setText("No ships sunk");
         AnchorPane.setTopAnchor(sunkStatus, 90.0);
         AnchorPane.setLeftAnchor(sunkStatus, 10.0);
+        
+        Label shipsLeft = new Label();
+        shipsLeft.setText("No ships sunk");
+        AnchorPane.setTopAnchor(shipsLeft, 120.0);
+        AnchorPane.setLeftAnchor(shipsLeft, 10.0);
 
-        scorePane.getChildren().addAll(endBtn,status,sunkStatus);
+        scorePane.getChildren().addAll(endBtn,status,sunkStatus, shipsLeft);
 
 
 
@@ -96,19 +144,40 @@ public class App2 extends Application {
                 rootPane.getChildren().add(btn);
                 
                 btn.setOnAction(new EventHandler<ActionEvent>() {
- 
                     @Override
                     public void handle(ActionEvent event) {
+                        moves.incrementAndGet();
+                        // Gets the position of the button which was clicked since tis is a generic handler
                         Button trigger = (Button) event.getSource();
                         int col = GridPane.getColumnIndex(trigger);
                         int row = GridPane.getRowIndex(trigger);
-                        System.out.println(col + "," + row);
+
+                        // Fires on the position of the button that was clicked
                         if(canon.fire(col, row)){
-                            System.out.println("Hit");
                             status.setText("Hit");
                         }else{
-                            System.out.println("Miss");
                             status.setText("Miss");
+                        }
+
+                        // Changes the colour of the button that was clicked 
+                        // So that user may know that they have already clicked that button
+                        trigger.getStyleClass().remove("waterButton");
+                        trigger.getStyleClass().add("firedWaterButton");
+                        
+
+                        // Checks which ship if any was sunk by this click and informs the user accordingly
+
+                        for (int k = 0; k < 5; k++) {
+                            // This checks if the ship was previously marked as sunk so that it is not shown again
+                            if(sea.sunk(k) && shipsSunk.indexOf(k) != -1){
+                                shipsSunk.add(k);
+                                shipsLeft.setText("Ships Left: " + ships.decrementAndGet());
+                                sunkStatus.setText(sunkStatusStrings.get(k) + " was sunk");
+                            }
+                        }
+                        
+                        if(sea.didAllShipsSink()) {
+                        	stage.setScene(endScene(true, moves));
                         }
                     }
                 });
@@ -121,5 +190,27 @@ public class App2 extends Application {
         scene.getStylesheets().add("gameStyle.css");
         return scene;
     }
+    
+    public Scene endScene(boolean finish, AtomicInteger moves) {
+    	AnchorPane pane = new AnchorPane();
+    	if(finish) {
+				
+			Label congratulationsLabel = new Label("You completed the game in " + moves.get()
+					+ " moves");
+			AnchorPane.setTopAnchor(congratulationsLabel, 20.0);
+			AnchorPane.setLeftAnchor(congratulationsLabel, 30.0);
+            AnchorPane.setRightAnchor(congratulationsLabel, 30.0);
+			pane.getChildren().add(congratulationsLabel);
+			
+		}
+    	
+    	Label thankLabel  = new Label("Thank you for playing the game");
+    	AnchorPane.setTopAnchor(thankLabel, 60.0);
+    	AnchorPane.setLeftAnchor(thankLabel, 30.0);
+    	AnchorPane.setRightAnchor(thankLabel, 30.0);
+		pane.getChildren().add(thankLabel);
+    	
+		return new Scene(pane);
+	}
     
 }
