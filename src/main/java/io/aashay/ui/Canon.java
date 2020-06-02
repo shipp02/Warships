@@ -1,6 +1,5 @@
 package io.aashay.ui;
 
-import java.util.Iterator;
 
 public class Canon implements CanonInterface{
     Sea sea;

@@ -128,14 +128,14 @@ public class Sea {
             for(int i = pos[1];  i<ship_size+pos[1]; i++){
                 int[] pos_occ = {pos[0],i};
                 sea[pos[0]][i] = ship_shape;
-                ship.setOccPos(pos_occ);
+                ship.addOccPos(new Place(pos_occ[0], pos_occ[1]));
             }
         }
         else if(ship_dir==1){
             for(int i = pos[0]; i<ship_size+pos[0];i++){
                 int[] pos_occ = {i,pos[1]};
                 sea[i][pos[1]] = ship_shape;
-                ship.setOccPos(pos_occ);
+                ship.addOccPos(new Place(pos_occ[0], pos_occ[1]));
             }
         }
     }
@@ -237,6 +237,7 @@ public class Sea {
      * @param i The number of the ship to check.
      * @return True if the ship has sunk. False otherwise
      */
+    // TODO:Fix isItDestroyed
     public boolean sunk(int i){
         return ships.get(i).isItDestroyed();
     }

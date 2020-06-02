@@ -7,8 +7,7 @@ public class Ship {
     int length;
     int[] Pos;
     int Dir;
-    // TODO Use palce list instead of ArrayList
-    ArrayList<Place> PosOccupied = new ArrayList<>();
+    PlaceList PosOccupied = new PlaceList();
     Sea waters = null;
 
     /**
@@ -31,7 +30,11 @@ public class Ship {
     * @param occupied
      */
     public void addOccPos(int[] occupied){
-        this.PosOccupied.add(new Place(occupied[0], occupied[1]));
+        this.PosOccupied.getPlaces().add(new Place(occupied[0], occupied[1]));
+    }
+
+    public void addOccPos(Place p){
+        this.PosOccupied.getPlaces().add(p);
     }
 
     /**
@@ -40,9 +43,8 @@ public class Ship {
      */
     public void destroy(int[] pos){ 
         if(equalsShip(pos)!=-1){
-            PosOccupied.remove(equalsShip(pos));
+            PosOccupied.remove(new Place(pos[0], pos[1]));
         }
-
     }
 
     /**
@@ -59,17 +61,9 @@ public class Ship {
     * returns true if the ship has been destroyed
     * @return boolean
      */
-    // TODO: refactor method
     public boolean isItDestroyed(){
-        boolean sunk = true;
-        for (int[] pos : PosOccupied) {
-            if(this.waters.getObj(pos[1], pos[0])!='-'){
-                sunk = sunk && false;
-            }else{
-                sunk = sunk && true;
-            }
-        }
-        return sunk;
+        if(PosOccupied.getPlaces().size() == 0) { return true;}
+        else{return false;}
     }
 }
 
@@ -78,6 +72,7 @@ class PlaceList {
 
     private ArrayList<Place> arrayList = null;
 
+    public ArrayList<Place> getPlaces(){return arrayList;}
     /**
      * This is to be used with parameter-less constructor as new PlaceList.create(aList)
      * @param aList list of places where ship is positioned
@@ -136,6 +131,15 @@ class PlaceList {
             }
         }
         return -1;
+    }
+
+    public int indexOf(Place p) {
+        int[] temp = {p.getX(), p.getY()};
+        return this.indexOf(temp);
+    }
+
+    public void remove(Place p){
+        this.arrayList.remove(this.indexOf(p));
     }
 }
 
