@@ -9,6 +9,7 @@ public class Canon implements CanonInterface{
     }
 
     @Override
+    // TODO: call destroy method of shi[]
     public boolean fire(int x, int y){
         boolean isShipThere = this.isShipThere(x, y);
         if(this.isShipThere(x, y)){
