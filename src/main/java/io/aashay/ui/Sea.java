@@ -14,7 +14,7 @@ import java.util.logging.SimpleFormatter;
  * This class reduces the amount of code required in application class at sometimes
  */
 public class Sea {
-    private char[][] sea = new char[10][10];  // form {x,y}
+    private char[][] sea = null;  // form {x,y}
     private final static Logger LOGGER = Logger.getLogger(Sea.class.getName());
     static private FileHandler fileTxt;
     static private SimpleFormatter formatterTxt;
@@ -24,6 +24,7 @@ public class Sea {
      * Constructor to set up the sea with default size of 10
      */
     public Sea(){
+        this.sea = new char[10][10];
         initSea();
         setupShips();
         printSea();
@@ -45,7 +46,6 @@ public class Sea {
      * If yes it puts the ship using putShip
      */
     private void setupShips(){
-        int[] ship_sizes = {5,4,3,2,2};
         char[] ship_shapes = {'A','B','C','D','D'};
         Random random = new Random();
         int i = 0;
@@ -54,15 +54,15 @@ public class Sea {
             formatterTxt = new SimpleFormatter();
             fileTxt.setFormatter(formatterTxt);
             LOGGER.addHandler(fileTxt);
-            LOGGER.setLevel(Level.SEVERE);
+            LOGGER.setLevel(Level.WARNING);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        while(i<Vehicles.values().length){
+        while(i<ship_shapes.length){
             int[] pos = getPos();
-            int ship_size = Vehicles.values()[i].getSize();
+            int ship_size = Vehicles.getByShape(ship_shapes[i]).getSize();
             int ship_dir  = random.nextInt(2); // 0-Horizontal,  1-Vertical
-            char ship_shape = Vehicles.values()[i].getShape();
+            char ship_shape = Vehicles.getByShape(ship_shapes[i]).getShape();
 
 
             if(canPutShip(ship_dir, pos, ship_size)){
@@ -164,7 +164,7 @@ public class Sea {
             }
             System.out.println();
         }
-	System.out.println();
+	    System.out.println();
     }
     
     /**
@@ -241,5 +241,11 @@ public class Sea {
     // TODO:Fix isItDestroyed
     public boolean sunk(int i){
         return ships.get(i).isItDestroyed();
+    }
+
+    public void destroyShip(int[] pos) {
+        for (Ship ship : ships) {
+            ship.destroy(pos);
+        }
     }
 }

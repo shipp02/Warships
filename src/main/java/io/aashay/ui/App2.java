@@ -169,7 +169,8 @@ public class App2 extends Application {
 
                         for (int k = 0; k < 5; k++) {
                             // This checks if the ship was previously marked as sunk so that it is not shown again
-                            if(sea.sunk(k) && shipsSunk.indexOf(k) != -1){
+                            if(sea.sunk(k) && shipsSunk.indexOf(k) == -1){
+                                System.out.println();
                                 shipsSunk.add(k);
                                 shipsLeft.setText("Ships Left: " + ships.decrementAndGet());
                                 sunkStatus.setText(sunkStatusStrings.get(k) + " was sunk");

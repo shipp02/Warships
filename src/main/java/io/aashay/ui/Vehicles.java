@@ -21,4 +21,21 @@ public enum Vehicles {
     public char getShape() {
         return shape;
     }
+
+    public static Vehicles getBySize(int  size) {
+        for (Vehicles vehicles : Vehicles.values()) {
+            if(vehicles.getSize() == size)
+            {    return vehicles;}
+        }
+        return null;
+    }
+
+    public static Vehicles getByShape(char shape) {
+        for (Vehicles vehicles : Vehicles.values()) {
+            if(vehicles.getShape() == shape)
+            {    return vehicles;}
+        }
+        return null;
+    }
+
 }

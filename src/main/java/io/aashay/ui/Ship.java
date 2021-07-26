@@ -1,7 +1,6 @@
 package io.aashay.ui;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 // TODO: add destroy method which removes Place form PlaceList
 public class Ship {
@@ -13,14 +12,14 @@ public class Ship {
     private Sea sea;
 
     /**
-    * Creates a ship object with the given param
-    *
-    * @param length represnts the number of blicks occupied by the {@link Ship} ship
-    * @param Pos represnts the position of the sip in x,y format
-    * @param Dir represnts wether the direction is horizontal or vertical
-    * @param sea represnts the sea object to which this ship belongs
+     * Creates a ship object with the given param
+     *
+     * @param length represnts the number of blicks occupied by the {@link Ship} ship
+     * @param Pos    represnts the position of the sip in x,y format
+     * @param Dir    represnts wether the direction is horizontal or vertical
+     * @param sea    represnts the sea object to which this ship belongs
      */
-    public Ship(int length, int[] Pos, int Dir, Sea sea){
+    public Ship(int length, int[] Pos, int Dir, Sea sea) {
         this.length = length;
         this.Pos = Pos;
         this.Dir = Dir;
@@ -28,44 +27,55 @@ public class Ship {
     }
 
     /**
-    * adds which position is occupied by the ship to ArrayList
-    * @param occupied
+     * adds which position is occupied by the ship to ArrayList
+     *
+     * @param occupied
      */
-    public void addOccPos(int[] occupied){
+    public void addOccPos(int[] occupied) {
         this.PosOccupied.getPlaces().add(new Place(occupied[0], occupied[1]));
     }
 
-    public void addOccPos(Place p){
+    public void addOccPos(Place p) {
         this.PosOccupied.getPlaces().add(p);
     }
 
     /**
-    * shows which part of the ship has been destroyed
-    * @param pos
+     * shows which part of the ship has been destroyed
+     *
+     * @param pos
      */
-    public void destroy(int[] pos){ 
-        if(equalsShip(pos)!=-1){
+    public void destroy(int[] pos) {
+        if (this.equalsShip(pos) != -1) {
             PosOccupied.remove(new Place(pos[0], pos[1]));
         }
     }
 
     /**
-    * 
-    * @param pos
-    * @return
+     * @param pos
+     * @return
      */
-    private int equalsShip(int[] pos){
-        Place pPos = new Place( pos[0], pos[1]);
+    private int equalsShip(int[] pos) {
+        Place pPos = new Place(pos[1], pos[0]);
+        System.out.println("Ship equalsShip " + this.PosOccupied.indexOf(pPos) + ", " + pPos.getX() + ", " + pPos.getY());
         return this.PosOccupied.indexOf(pPos);
     }
 
     /**
-    * returns true if the ship has been destroyed
-    * @return boolean
+     * returns true if the ship has been destroyed
+     *
+     * @return boolean
      */
-    public boolean isItDestroyed(){
-        if(PosOccupied.getPlaces().size() == 0) { return true;}
-        else{return false;}
+    public boolean isItDestroyed() {
+        System.out.println(this.PosOccupied.getPlaces().size());
+        if (PosOccupied.getPlaces().size() == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void setSea(Sea sea) {
+        this.sea = sea;
     }
 }
 
@@ -74,9 +84,13 @@ class PlaceList {
 
     private ArrayList<Place> arrayList = null;
 
-    public ArrayList<Place> getPlaces(){return arrayList;}
+    public ArrayList<Place> getPlaces() {
+        return arrayList;
+    }
+
     /**
      * This is to be used with parameter-less constructor as new PlaceList.create(aList)
+     *
      * @param aList list of places where ship is positioned
      */
     public PlaceList create(ArrayList<int[]> aList) {
@@ -87,7 +101,7 @@ class PlaceList {
         return this;
     }
 
-    public PlaceList (ArrayList<Place> pList) {
+    public PlaceList(ArrayList<Place> pList) {
         this.arrayList = pList;
     }
 
@@ -97,7 +111,7 @@ class PlaceList {
      * Be careful this.arrayList can be null
      */
     public PlaceList() {
-        this.arrayList =  new ArrayList<>();
+        this.arrayList = new ArrayList<>();
     }
 
     /**
@@ -108,16 +122,14 @@ class PlaceList {
     }
 
     /**
-     * 
      * @param aList list of places where ship is present
      * @return true if arrayList was set. False if it was not
      */
     public boolean setList(ArrayList<Place> aList) {
-        if(this.arrayList == null) {
+        if (this.arrayList == null) {
             this.arrayList = aList;
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -127,8 +139,8 @@ class PlaceList {
      */
     public int indexOf(int[] iarr) {
         Place ip = new Place(iarr[0], iarr[1]);
-        for (int i = 0;i<this.arrayList.size();i++){
-            if(this.arrayList.get(i).equals(ip)){
+        for (int i = 0; i < this.arrayList.size(); i++) {
+            if (this.arrayList.get(i).equalsPlace(ip)) {
                 return i;
             }
         }
@@ -136,32 +148,33 @@ class PlaceList {
     }
 
     public int indexOf(Place p) {
-        int[] temp = {p.getX(), p.getY()};
-        return this.indexOf(temp);
+        for (Place place :
+                this.arrayList) {
+            if (place.equalsPlace(p)) {
+                return this.arrayList.indexOf(place);
+            }
+        }
+        return -1;
     }
 
-    public void remove(Place p){
+    public void remove(Place p) {
         this.arrayList.remove(this.indexOf(p));
+        this.arrayList.trimToSize();
     }
 }
 
 class Place {
     private int[] place = new int[2];
 
-    public Place (int x, int y){
+    public Place(int x, int y) {
         this.place[0] = x;
         this.place[1] = y;
     }
 
-    @Override
-    public boolean equals(Object o){
-        Place p = (Place) o;
+    public boolean equalsPlace(Place p) {
+        System.out.println("Place equalsPlace other" + p.getX() + ", " + p.getY() + " this: " + this.getX() + ", " + this.getY());
 
-        if(p.getX() == this.getX() && p.getY() == this.getY()){
-            return true;
-        }
-
-        return false;
+        return p.getX() == this.getX() && p.getY() == this.getY();
     }
 
     public int getX() {
